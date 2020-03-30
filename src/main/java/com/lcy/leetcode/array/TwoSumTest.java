@@ -1,7 +1,7 @@
 package com.lcy.leetcode.array;
 
-import org.apache.commons.collections.map.HashedMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +19,7 @@ public class TwoSumTest {
      * @return
      */
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer,Integer> valud2Ind = new HashedMap();
+        Map<Integer,Integer> valud2Ind = new HashMap<>();
         Integer ind = null;
         for (int i = 0; i < nums.length; i++) {
             ind = valud2Ind.get(target - nums[i]);
