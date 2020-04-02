@@ -1,13 +1,14 @@
 package com.lcy.leetcode.list;
 
-import com.google.common.base.Objects;
+
+import java.util.Objects;
 
 /**
  * Created by：luo
  * date: 2020/4/1.
  * desc：链表接口定义
  */
-public interface ListInter<T> {
+public interface ListInter<T extends Comparable> {
 
     void addFirst(T t);
 
@@ -55,7 +56,8 @@ public interface ListInter<T> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Node<?> node = (Node<?>) o;
-            return Objects.equal(data, node.data);
+            return Objects.equals(data, node.data) &&
+                    Objects.equals(next, node.next);
         }
 
         @Override

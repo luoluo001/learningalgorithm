@@ -5,7 +5,7 @@ package com.lcy.leetcode.list;
  * date: 2020/4/1.
  * desc：
  */
-public class LinkedList<T> implements ListInter<T> {
+public class LinkedList<T extends Comparable> implements ListInter<T> {
     //哨兵
     private Node<T> head = new Node<>(null,null);
     @Override
@@ -127,17 +127,24 @@ public class LinkedList<T> implements ListInter<T> {
 
         //链表反转
         LinkedList<Integer> list = new LinkedList<>();
-        list.addFirst(1);
         list.addFirst(2);
-        list.addFirst(3);
         list.addFirst(4);
         list.addFirst(5);
         System.out.println(list.toString());
         //取出节点做反转
-        Node<Integer> node = list.head.next;
-        Node reverse = list.reverse(node);
-        System.out.println(list.appNodeData(reverse));
+//        Node<Integer> node = list.head.next;
+//        Node reverse = list.reverse(node);
+//        System.out.println(list.appNodeData(reverse));
 
+        //环的检测
+        Node<Integer> node = list.head.next;
+        System.out.println(list.haCircle(node));
+        LinkedList<Integer> list1 = new LinkedList<>();
+        list1.addFirst(1);
+        list1.addFirst(3);
+        Node<Integer> node2 = list1.head.next;
+        Node<Integer> newNode = list1.mergeTwoNode(node2, node);
+        System.out.println(list.appNodeData(newNode));
     }
 
     /**
@@ -160,4 +167,56 @@ public class LinkedList<T> implements ListInter<T> {
         }
         return pre;
     }
+
+
+    /**
+     * 环检测
+     * 利用快慢指针判定如果快指针所在节点与慢指针所在节点一致则说明存在环
+     */
+    public boolean haCircle(Node node){
+        if(node==null){
+            return false;
+        }
+        Node fast = node;
+        Node slow = node;
+        while (fast!=null&&fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(fast.equals(slow)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 合并有序两个链表
+     * 先创建一个节点： 之后哪个节点的数据小 就是当前的下一个节点 最后将未完成的那个链表节点作为新节点的下一个节点
+     */
+    public Node<T> mergeTwoNode(Node<T> node1,Node<T> node2){
+        Node newNode = new Node(0);
+        Node returnNode = newNode;
+        while (node1!=null&&node2!=null){
+            if(node1.getData().compareTo(node2.getData())>0){
+                newNode.next = node1;
+                newNode = newNode.next;
+                node1 = node1.next;
+            }else{
+                newNode.next = node2;
+                newNode = newNode.next;
+                node2 =  node2.next;
+            }
+        }
+        if(node1!=null){
+            newNode.next = node1;
+        }
+        if (node2!=null) {
+            newNode.next = node2;
+        }
+        returnNode = returnNode.next;
+        return returnNode;
+    }
+
+
 }
+
